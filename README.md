@@ -2,11 +2,11 @@
   <img src="https://camo.githubusercontent.com/517483ae0eaba9884f397e9af1c4adc7bbc231575ac66cc54292e00400edcd10/68747470733a2f2f7777772e6d756c7469736166657061792e636f6d2f66696c6561646d696e2f74656d706c6174652f696d672f6d756c7469736166657061792d6c6f676f2d69636f6e2e737667" width="400px" position="center">
 </p>
 
-# MultiSafepay module for the Hyva React Checkout
+# MultiSafepay module for the Hyvä React Checkout
 
-This is the module of our new Magento 2 Hyva React Checkout integration.
+This is the module of our new Magento 2 Hyvä React Checkout integration.
 
-Before you get started with MultiSafepay and the Hyva React Checkout, please read and follow our [installation & configuration manual](https://docs.multisafepay.com/docs/magento-2) first.
+Before you get started with MultiSafepay and the Hyvä React Checkout, please read and follow our [installation & configuration manual](https://docs.multisafepay.com/docs/magento-2) first.
 
 ## About MultiSafepay ##
 MultiSafepay is a collecting payment service provider which means we take care of the agreements, technical details and payment collection required for each payment method. You can start selling online today and manage all your transactions from one place.
@@ -60,7 +60,7 @@ npm run build
 You can create issues on our repository. If you need any additional help or support, please contact <a href="mailto:integration@multisafepay.com">integration@multisafepay.com</a>
 
 We are also available on our Magento Slack channel [#multisafepay-payments](https://magentocommeng.slack.com/messages/multisafepay-payments/).
-Feel free to start a conversation or provide suggestions as to how we can refine our Hyva React Checkout integration.
+Feel free to start a conversation or provide suggestions as to how we can refine our Hyvä React Checkout integration.
 
 ## License
 [Open Software License (OSL 3.0)](https://github.com/MultiSafepay/Magento2Msp/blob/master/LICENSE.md)
