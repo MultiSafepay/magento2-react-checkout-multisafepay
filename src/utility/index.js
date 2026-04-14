@@ -4,20 +4,23 @@ import { config } from '@hyva/react-checkout/config';
 
 export const paymentMethodShape = shape({ title: string, code: string });
 
-export function generateRedirectToken() {
-  if (window.crypto && window.crypto.getRandomValues) {
+export function fetchRedirectToken() {
+  const cryptoObject = window.crypto || window.msCrypto;
+
+  if (cryptoObject && typeof cryptoObject.randomUUID === 'function') {
+    return cryptoObject.randomUUID().replace(/-/g, '');
+  }
+
+  if (cryptoObject && typeof cryptoObject.getRandomValues === 'function') {
     const bytes = new Uint8Array(16);
-    window.crypto.getRandomValues(bytes);
+    cryptoObject.getRandomValues(bytes);
 
     return Array.from(bytes)
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
   }
 
-  return (Date.now().toString(16) + Math.random().toString(16).slice(2))
-    .replace('.', '')
-    .slice(0, 32)
-    .padEnd(32, '0');
+  throw new Error('Secure redirect token generation is unavailable in this environment.');
 }
 
 export function performRedirect(order, redirectToken = '') {
