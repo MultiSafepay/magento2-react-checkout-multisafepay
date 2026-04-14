@@ -8,7 +8,7 @@ import {
   checkErrors,
   getErrors,
 } from '../components/CreditCardComponent/utility/multisafepayComponent';
-import { fetchRedirectToken, performRedirect } from '../utility';
+import { generateRedirectToken, performRedirect } from '../utility';
 
 export default function usePerformPlaceOrderWithComponent(paymentMethodCode) {
   const { cartId, setRestPaymentMethod, setOrderInfo } =
@@ -23,7 +23,7 @@ export default function usePerformPlaceOrderWithComponent(paymentMethodCode) {
           throw new Error('MultiSafepay component error');
         }
 
-        const redirectToken = fetchRedirectToken();
+        const redirectToken = generateRedirectToken();
 
         const paymentMethodData = {
           paymentMethod: {

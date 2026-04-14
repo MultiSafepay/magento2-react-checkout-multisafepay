@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { get, set } from 'lodash';
 import { __ } from '@hyva/react-checkout/i18n';
 import { LOGIN_FORM } from '@hyva/react-checkout/config';
-import { fetchRedirectToken, performRedirect } from '../utility';
+import { generateRedirectToken, performRedirect } from '../utility';
 import useMultiSafepayAppContext from './useMultiSafepayAppContext';
 import useMultiSafepayCartContext from './useMultiSafepayCartContext';
 
@@ -15,7 +15,7 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
   return useCallback(
     async (values, additionalData = {}) => {
       try {
-        const redirectToken = fetchRedirectToken();
+        const redirectToken = generateRedirectToken();
 
         const paymentMethodData = {
           paymentMethod: {

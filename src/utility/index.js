@@ -4,7 +4,7 @@ import { config } from '@hyva/react-checkout/config';
 
 export const paymentMethodShape = shape({ title: string, code: string });
 
-export function fetchRedirectToken() {
+export function generateRedirectToken() {
   if (window.crypto && window.crypto.getRandomValues) {
     const bytes = new Uint8Array(16);
     window.crypto.getRandomValues(bytes);
