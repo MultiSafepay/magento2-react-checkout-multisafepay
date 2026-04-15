@@ -8,7 +8,7 @@ import {
   checkErrors,
   getErrors,
 } from '../components/CreditCardComponent/utility/multisafepayComponent';
-import { performRedirect } from '../utility';
+import { generateRedirectToken, performRedirect } from '../utility';
 
 export default function usePerformPlaceOrderWithComponent(paymentMethodCode) {
   const { cartId, setRestPaymentMethod, setOrderInfo } =
@@ -17,16 +17,21 @@ export default function usePerformPlaceOrderWithComponent(paymentMethodCode) {
     useMultiSafepayAppContext();
 
   return useCallback(
-    async (values, additionalData) => {
+    async (values, additionalData = {}) => {
       try {
         if (checkErrors()) {
           throw new Error('MultiSafepay component error');
         }
 
+        const redirectToken = generateRedirectToken();
+
         const paymentMethodData = {
           paymentMethod: {
             method: paymentMethodCode,
-            additional_data: additionalData,
+            additional_data: {
+              ...additionalData,
+              redirect_token: redirectToken,
+            },
           },
         };
         const email = get(values, `${LOGIN_FORM}.email`);
@@ -39,12 +44,13 @@ export default function usePerformPlaceOrderWithComponent(paymentMethodCode) {
 
         setPageLoader(true);
         const order = await setRestPaymentMethod(paymentMethodData, isLoggedIn);
-        setPageLoader(false);
-        performRedirect(order);
 
         if (order) {
           setOrderInfo(order);
         }
+
+        setPageLoader(false);
+        performRedirect(order, redirectToken);
       } catch (error) {
         let validationError = false;
         let validationMessage =

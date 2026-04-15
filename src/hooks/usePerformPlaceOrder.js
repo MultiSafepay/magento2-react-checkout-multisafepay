@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { get, set } from 'lodash';
 import { __ } from '@hyva/react-checkout/i18n';
 import { LOGIN_FORM } from '@hyva/react-checkout/config';
-import { performRedirect } from '../utility';
+import { generateRedirectToken, performRedirect } from '../utility';
 import useMultiSafepayAppContext from './useMultiSafepayAppContext';
 import useMultiSafepayCartContext from './useMultiSafepayCartContext';
 
@@ -13,12 +13,17 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
     useMultiSafepayAppContext();
 
   return useCallback(
-    async (values, additionalData) => {
+    async (values, additionalData = {}) => {
       try {
+        const redirectToken = generateRedirectToken();
+
         const paymentMethodData = {
           paymentMethod: {
             method: paymentMethodCode,
-            additional_data: additionalData,
+            additional_data: {
+              ...additionalData,
+              redirect_token: redirectToken,
+            },
           },
         };
         const email = get(values, `${LOGIN_FORM}.email`);
@@ -31,12 +36,13 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
 
         setPageLoader(true);
         const order = await setRestPaymentMethod(paymentMethodData, isLoggedIn);
-        setPageLoader(false);
-        performRedirect(order);
 
         if (order) {
           setOrderInfo(order);
         }
+
+        setPageLoader(false);
+        performRedirect(order, redirectToken);
       } catch (error) {
         console.error(error);
         setErrorMessage(
